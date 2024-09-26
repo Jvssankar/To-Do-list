@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>To-Do List Application</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    
+    <style>
+        body {
+            background: linear-gradient(135deg, #74ebd5 0%, #acb6e5 100%);
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            min-height: 75vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin: 0;
+        }
+        h1 {
+            color: #fff;
+            font-size: 2.5rem;
+            margin-bottom: 30px;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
+        }
+        .card {
+            background: #fff;
+            border: none;
+            border-radius: 15px;
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.15);
+            overflow: hidden;
+            max-width: 600px;
+            width: 100%;
+        }
+        .form-control {
+            border-radius: 50px;
+            padding: 15px;
+        }
+        .btn-primary {
+            border-radius: 50px;
+            padding: 10px 20px;
+        }
+        .list-group-item {
+            background-color: #f8f9fa;
+            border: none;
+            border-bottom: 1px solid #ddd;
+            padding: 15px 20px;
+            transition: background 0.3s;
+        }
+        .list-group-item:hover {
+            background-color: #f1f1f1;
+        }
+        .completed {
+            text-decoration: line-through;
+            color: #999;
+        }
+        .uncompleted{
+            text-decoration: line-through;
+            color: #808080;
+        }
+        .btn-sm {
+            padding: 5px 10px;
+        }
+        .btn-warning {
+            background-color: #808080;
+            color: #212529;
+            border: 1px solid #808080;
+        }
+        .btn-warning:hover {
+            background-color: #e0a800;
+            color: #212529;
+        }        
+        .card-body {
+            padding: 40px;
+        }
+        .add-task-wrapper {
+            position: relative;
+            margin-bottom: 30px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container text-center">
+        <h1>To-Do List</h1>
+        <div class="card">
+            <div class="card-body">
+                <form action="/add" method="POST" class="form-inline add-task-wrapper">
+                    <input type="text" name="title" class="form-control col-9" placeholder="Add a new task" required>
+                    <button type="submit" class="btn btn-primary ml-3">Add Task</button>
+                </form>
+                <ol class="list-group">
+                    {% for task in todo_list %}
+                    <li class="list-group-item d-flex justify-content-between align-items-center">
+                        <span class="{% if task.complete %}completed{% endif %}">{{ task.title }}</span>
+                        <div>
+                            <!-- Toggle button text based on task completion status -->
+                            <a href="/update/{{ task.id }}" class="btn btn-sm {% if task.complete %}btn-warning{% else %}btn-success{% endif %}">
+                                {% if task.complete %}Uncomplete{% else %}Complete{% endif %}
+                            </a>                            
+                            <a href="/delete/{{ task.id }}" class="btn btn-sm btn-danger">Delete</a>
+                        </div>
+                    </li>
+                    {% endfor %}
+                </ol>                
+            </div>
+        </div>
+    </div>
+
+    <!-- Bootstrap JS -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.2/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+</html>
